@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>BookStore - admin</title>
+    <meta content="Admin Dashboard" name="description"/>
+    <meta content="Themesbrand" name="author"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <!-- App Icons -->
+    <link rel="shortcut icon" href="/fontawesome/favicon.ico">
+
+    <!-- C3 charts css -->
+    <link href="/css/c3.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Basic Css files -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!--<link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">-->
+    <link href="/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body class="fixed-left">
+
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <div class="left side-menu" th:fragment="left-sidebar">
+
+        <!-- LOGO -->
+        <div class="topbar-left">
+            <div class="">
+                <a href="/admin" class="logo"><img src="/images/logo.png" style="height: 150px"/>
+                </a>
+            </div>
+        </div>
+
+        <div class="sidebar-inner slimscrollleft">
+            <div id="sidebar-menu">
+                <ul>
+
+                    <li class="menu-title">Main</li>
+
+                    <li>
+                        <a href="/admin/users" class="waves-effect"><i
+                                class="mdi mdi-cube-outline"></i><span> Quản lý User </span></a>
+                    </li>
+
+                    <li>
+                        <a href="/admin/categories" class="waves-effect"><i class="mdi mdi-calendar-check"></i><span> Quản Lý Danh Mục </span></a>
+                    </li>
+
+                    <li>
+                        <a href="/admin/books" class="waves-effect"><i class="mdi mdi-calendar-check"></i><span> Quản Lý Sách </span></a>
+                    </li>
+
+                    <li>
+                        <a href="/admin/orders" class="waves-effect"><i class="mdi mdi-calendar-check"></i><span> Quản Lý Đơn Hàng</span></a>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div> <!-- end sidebarinner -->
+    </div>
+    <!-- Left Sidebar End -->
+
+
+    <!-- Start right Content here -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+
+            <!-- Top Bar Start -->
+            <div class="topbar" th:fragment="top-bar">
+
+                <nav class="navbar-custom">
+
+                    <ul class="list-inline float-right mb-0">
+                        <!-- Fullscreen -->
+                        <li class="list-inline-item dropdown notification-list hidden-xs-down">
+                            <a class="nav-link waves-effect" href="#" id="btn-fullscreen">
+                                <i class="mdi mdi-fullscreen noti-icon"></i>
+                            </a>
+                        </li>
+                        <!-- User-->
+                        <li class="list-inline-item dropdown notification-list ">
+                            <div sec:authorize="isAuthenticated()">
+                                Authenticated as <b><span sec:authentication="name"></span></b></div>
+                        </li>
+                        <li class="list-inline-item dropdown notification-list">
+                            <form th:action="@{/logout}" method="post">
+                                <input type="submit" value="Logout"/>
+                            </form>
+                        </li>
+                    </ul>
+
+                    <!-- Page title -->
+                    <ul class="list-inline menu-left mb-0">
+                        <li class="list-inline-item">
+                            <button type="button" class="button-menu-mobile open-left waves-effect">
+                                <i class="ion-navicon"></i>
+                            </button>
+                        </li>
+                        <li class="hide-phone list-inline-item app-search">
+                            <h3 class="page-title">Dashboard</h3>
+                        </li>
+                    </ul>
+
+                    <div class="clearfix"></div>
+                </nav>
+
+            </div>
+            <!-- Top Bar End -->
+
+            <!-- ==================
+                 PAGE CONTENT START
+                 ================== -->
+
+            <!-- Page content Wrapper -->
+
+        </div> <!-- content -->
+
+        <footer class="footer" th:fragment="footer">
+            © 2021 created by Nguyễn Đức Lợi!
+        </footer>
+
+        <div th:fragment="script">
+            <!-- jQuery  -->
+            <script src="http://localhost:8080/assets/js/jquery.min.js"></script>
+            <script src="http://localhost:8080/assets/js/bootstrap.bundle.min.js"></script>
+            <script src="http://localhost:8080/assets/js/modernizr.min.js"></script>
+            <script src="http://localhost:8080/assets/js/jquery.slimscroll.js"></script>
+            <script src="http://localhost:8080/assets/js/waves.js"></script>
+            <script src="http://localhost:8080/assets/js/jquery.nicescroll.js"></script>
+            <script src="http://localhost:8080/assets/js/jquery.scrollTo.min.js"></script>
+
+            <!-- Page specific js -->
+            <script src="http://localhost:8080/assets/pages/dashboard.js"></script>
+
+            <!-- App js -->
+            <script src="http://localhost:8080/assets/js/app.js"></script>
+
+        </div>
+
+    </div>
+    <!-- End Right content here -->
+
+</div>
+<!-- END wrapper -->
+</body>
+</html>

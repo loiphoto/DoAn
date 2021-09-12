@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="li">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/product-item.css">
+    <script type="text/javascript" src="/js/main.js"></script>
+    <link rel="stylesheet" href="/css/all.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <script type="text/javascript"
+            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/favicon_io/site.webmanifest">
+
+</head>
+
+<body>
+<!--Header-->
+<div th:replace="index::header"></div>
+
+<div class="container">
+    <div style="margin-top: 50px"></div>
+    <div>
+        <h1> [[${pageTitle}]]</h1>
+    </div>
+    <form th:action="@{/order/create}" method="post" th:object="${orderRequest}"
+          style="max-width: 600px; margin: 0 auto">
+        <div class="m-3" th:object="${user}">
+<!--            <input type="hidden" th:field="${user.}">-->
+<!--            <input type="hidden" th:field="*{role}">-->
+            <div class="form-group row m-b-20">
+                <label class="col-form-label col-4">Họ và tên: </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" th:field="${user.name}" required>
+                </div>
+            </div>
+            <div class="form-group row m-b-20">
+                <label class="col-form-label col-4">Phone</label>
+                <div class="col-8">
+                    <input type="number" class="form-control" th:field="${user.phone}" required minlength="10">
+                </div>
+            </div>
+            <div class="form-group row m-b-20">
+                <label class="col-form-label col-4">Tỉnh</label>
+                <div class="col-8">
+                    <select class="form-control" id="provinces">
+                        <option th:each="provinces :${provincesList}"
+                                th:value="${provinces.id}"
+                                th:text="${provinces.name}"
+                        >
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row m-b-20">
+                <label class="col-form-label col-4">Huyện</label>
+                <div class="col-8">
+                    <select class="form-control" id="districts">
+                        <option value="none" selected disabled hidden>Chọn Huyện
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row m-b-20">
+                <label class="col-form-label col-4">Xã </label>
+                <div class="col-8">
+                    <select class="form-control" id="wards" th:field="${user.wardId}" required>
+<!--                        <option selected disabled hidden>Chọn Xã-->
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row m-b-20">
+                <label class="col-form-label col-4">Số nhà & tên đường </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" required th:field="${user.address}">
+                </div>
+            </div>
+            <div class="form-group row m-b-20">
+                <label class="col-form-label col-4">Phí vận chuyển </label>
+                <div class="col-8">
+                    <input type="number" class="form-control" id="transport_fee"
+                           th:field="${orderRequest.transport_fee}" required readonly>
+                </div>
+            </div>
+            <div class="form-group row m-b-20">
+                <label class="col-form-label col-4">Tổng Tiền </label>
+                <div class="col-8">
+                    <input type="number" class="form-control" id="total" th:field="${orderRequest.total}" required
+                           readonly>
+                </div>
+            </div>
+            <div class="form-group row m-b-20">
+                <label class="col-form-label col-4">Hình thức thanh toán</label>
+                <div class="col-8">
+                    <div class="option mb-2">
+                        <input type="radio" name="pttt" th:field="${orderRequest.paymentMethod}" required value="cod" id="cod"
+                               checked="">
+                        <label for="cod">Thanh toán bằng tiền mặt khi nhận hàng</label>
+                    </div>
+                    <div class="option option2 text-left">
+                        <input type="radio" name="pttt" th:field="${orderRequest.paymentMethod}" required value="atm" id="atm">
+                        <label for="atm" class="chuyenkhoan">Thanh toán chuyển khoản trước
+                            qua Thẻ ATM/Internet Banking</label>
+                        <p class="mt-4">- Quý khách chỉ chuyển khoản khi được xác nhận có đủ
+                            sách qua điện thoại từ BookStore.</p>
+                        <p>- Thời gian chuyển khoản là trong tối đa 2 ngày từ khi có xác
+                            nhận đủ sách.</p>
+                        <p>- Nội dung chuyển khoản cần ghi: <b>[Mã đơn hàng]</b> ;
+                            hoặc <b>[số điện thoại dùng đặt hàng]</b>
+                        </p>
+                    </div>
+                </div>
+
+                <label class="col-form-label col-4">Ghi chú</label>
+                <div class="col-8">
+                    <textarea type="text" class="form-control" th:field="${orderRequest.note}">
+                    </textarea>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary m-2">Đặt mua</button>
+                <button type="submit" class="btn btn-secondary m-2" onclick="cancelForm()">Huỷ</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div th:replace="index::footer"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#provinces").change(function () {
+            $("#districts").empty();
+            $("#wards").empty();
+            $("#transport_fee").empty();
+            getDistricts();
+        });
+        getDistricts();
+        $("#districts").change(function () {
+            $("#wards").empty();
+            $("#transport_fee").empty();
+            getWards();
+        });
+        $("#wards").change(function () {
+            $("#transport_fee").empty();
+            getTransport_fee();
+            getTotal();
+        });
+        if (!$("#districts").val().null) {
+            getWards();
+        }
+    });
+
+    function getTotal() {
+        urlString = "[[@{'/cart/check-out/total'}]]";
+
+        $.ajax({
+            method: "GET",
+            url: urlString,
+        }).done(function (response) {
+            console.log("Gio hang: " + response);
+
+            var total = Number($("#transport_fee").val()) + response;
+            $("#total").val(total);
+
+            console.log("Tong tien: " + total);
+
+            // alert(response);
+        }).fail(function () {
+            alert("Error connecting to server");
+        });
+    }
+
+    function getTransport_fee() {
+        wardsId = $("#wards").val();
+        urlString = "[[@{'/cart/check-out/wards/'}]]" + wardsId + "/transport-fee";
+
+        $.ajax({
+            method: "GET",
+            url: urlString,
+        }).done(function (response) {
+            $("#transport_fee").val(response.transport_fee);
+            console.log("Phi van chuyen" + response.transport_fee);
+            // alert(response);
+        }).fail(function () {
+            alert("Error connecting to server");
+        });
+    }
+
+    function getDistricts() {
+        provincesId = $("#provinces").val();
+        urlString = "[[@{'/cart/check-out/provinces/'}]]" + provincesId + "/districts";
+        $.ajax({
+            method: "GET",
+            url: urlString,
+        }).done(function (responseJson) {
+            districtsDropDown = $("#districts");
+            $.each(responseJson, function (index, districts) {
+                // alert(index + ": "+ districts.id + " - " + districts.name);
+                $("<option>").val(districts.id).text(districts.name).appendTo(districtsDropDown);
+            });
+        })
+            .fail(function () {
+                alert("Error connecting to server");
+            });
+    };
+
+    function getWards() {
+        districtsId = $("#districts").val();
+        urlString = "[[@{'/cart/check-out/provinces/'}]]" + provincesId + "/districts/" + districtsId + "/wards";
+        $.ajax({
+            method: "GET",
+            url: urlString,
+        }).done(function (responseJson) {
+            wardsDropDown = $("#wards");
+            $.each(responseJson, function (index, wards) {
+                $("<option>").val(wards.id).text(wards.name).appendTo(wardsDropDown);
+            });
+        })
+            .fail(function () {
+                alert("Error connecting to server");
+            });
+    };
+
+</script>
+</body>
+
+</html>

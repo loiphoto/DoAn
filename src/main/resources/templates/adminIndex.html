@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>BookStore - admin</title>
+    <meta content="Admin Dashboard" name="description"/>
+    <meta content="Themesbrand" name="author"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <script type="text/javascript" src="/js/jquery.number.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- App Icons -->
+    <link rel="shortcut icon" href="/fontawesome/favicon.ico">
+
+    <!-- C3 charts css -->
+    <link href="/css/c3.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Basic Css files -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!--        <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">-->
+    <link href="/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body class="fixed-left">
+
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <div th:replace="common/default :: left-sidebar"/>
+    <!-- Left Sidebar End -->
+
+    <!-- Start right Content here -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+
+            <!-- Top Bar Start -->
+            <div th:replace="common/default :: top-bar"/>
+            <!-- Top Bar End -->
+
+            <!-- ==================
+                 PAGE CONTENT START
+                 ================== -->
+
+            <div class="page-content-wrapper">
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 col-xl-3">
+                            <div class="mini-stat clearfix bg-white">
+                                <span class="font-40 text-primary mr-0 float-right"><i class="mdi ti-book"></i></span>
+                                <div class="mini-stat-info">
+                                    <h3 class="counter font-light mt-0">[[${totalBooks}]]</h3>
+                                </div>
+                                <div class="clearfix"></div>
+                                <p class=" mb-0 m-t-10 text-muted">Tổng sách
+                                    <span class="pull-right">
+<!--                                        <i class="fa fa-caret-down text-danger m-r-5"></i>3.25%-->
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-3">
+                            <div class="mini-stat clearfix bg-white">
+                                <span class="font-40 text-success mr-0 float-right"><i class="mdi  mdi mdi-account"></i></span>
+                                <div class="mini-stat-info">
+                                    <h3 class="counter font-light mt-0">[[${totalUsers}]]</h3>
+                                </div>
+                                <div class="clearfix"></div>
+                                <p class=" mb-0 m-t-10 text-muted">Tài khoản
+                                    <span class="pull-right">
+<!--                                        <i class="fa fa-caret-up text-success m-r-5"></i>8.51%-->
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-3">
+                            <div class="mini-stat clearfix bg-white">
+                                <span class="font-40 text-warning mr-0 float-right"><i
+                                        class="mdi mdi-shopping"></i></span>
+                                <div class="mini-stat-info">
+                                    <h3 class="counter font-light mt-0">[[${totalOrders}]]</h3>
+                                </div>
+                                <div class="clearfix"></div>
+                                <p class=" mb-0 m-t-10 text-muted">Đơn hàng
+                                    <span class="pull-right">
+<!--                                        <i class="fa fa-caret-down text-danger m-r-5"></i>5.52%-->
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-3">
+                            <div class="mini-stat clearfix bg-white">
+                                <span class="font-40 text-danger mr-0 float-right"><i class="mdi mdi-currency-usd"></i></span>
+                                <h3 id="price" th:text="${totalRevenue}"></h3>
+<!--                                <div class="mini-stat-info">-->
+<!--                                </div>-->
+                                <div class="clearfix"></div>
+                                <p class=" mb-0 m-t-10 text-muted">Doanh thu
+                                    <span class="pull-right">
+<!--                                        <i class="fa fa-caret-up text-success m-r-5"></i>7.10%-->
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Page content Wrapper -->
+        </div> <!-- content -->
+        <div th:replace="common/default :: footer"/>
+    </div>
+    <!-- End Right content here -->
+
+</div>
+<!-- END wrapper -->
+
+<div th:replace="common/default :: script"/>
+<script type="text/javascript">
+
+    $(document).ready(function($){
+        function number_format (number, decimals, dec_point, thousands_sep) {
+            number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+            var n = !isFinite(+number) ? 0 : +number,
+                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+                sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+                dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+                s = '',
+                toFixedFix = function (n, prec) {
+                    var k = Math.pow(10, prec);
+                    return '' + Math.round(n * k) / k;
+                };
+            // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+            s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+            if (s[0].length > 3) {
+                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+            }
+            if ((s[1] || '').length < prec) {
+                s[1] = s[1] || '';
+                s[1] += new Array(prec - s[1].length + 1).join('0');
+            }
+            return s.join(dec);
+        }
+        var x = $('#price').text();
+        var price = number_format(x,0,".",".");
+        console.log($('#price').text());
+        $('#price').text(price)
+    });
+
+</script>
+
+</body>
+</html>

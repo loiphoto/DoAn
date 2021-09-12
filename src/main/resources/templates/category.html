@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="li">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/product-item.css">
+    <script type="text/javascript" src="/js/main.js"></script>
+    <link rel="stylesheet" href="/css/all.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" type="text/css" href="/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="/slick/slick-theme.css"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/slick/slick.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <script type="text/javascript"
+            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/favicon_io/site.webmanifest">
+
+</head>
+
+<body>
+
+<!--Header-->
+<div th:replace="index::header">
+</div>
+
+<section class="content my-4">
+    <div class="container">
+        <div class="noidung bg-white" style=" width: 100%;">
+            <!-- header của khối sản phẩm : bộ lọc và sắp xếp  -->
+            <div class="header-khoi-sp d-flex">
+                <div class="sort d-flex ml-auto">
+                    <!--                    <div class="sap-xep">-->
+                    <!--                        <label class="label-select">Sắp xếp</label>-->
+                    <!--                        <select class="sapxep-select">-->
+                    <!--                            <option value="@{'/category/'+${categoryId}'/page/1/latest'}">Mới nhất</option>-->
+                    <!--                            <option value="thap-cao">Giá: Thấp - Cao</option>-->
+                    <!--                            <option value="cao-thap">Giá: Cao - Thấp</option>-->
+                    <!--                        </select>-->
+                    <!--                    </div>-->
+                    <div class="dropdown">
+                        <button style="background-color: white; color: #0b0b0b;" class="btn btn-primary dropdown-toggle"
+                                type="button" data-toggle="dropdown">Sắp xếp
+                        </button>
+                        <ul class="dropdown-menu" style="width: 15px;">
+                            <li style="text-align: center; margin: 3px"><a
+                                    th:href="@{'/category/'+${categoryId}+'/page/latest/1'}">Mới nhất</a></li>
+                            <li style="text-align: center; margin: 3px"><a
+                                    th:href="@{'/category/'+${categoryId}+'/page/price-asc/1'}">Giá: Thấp - Cao</a></li>
+                            <li style="text-align: center; margin: 3px"><a
+                                    th:href="@{'/category/'+${categoryId}+'/page/price-des/1'}">Giá: Cao - Thấp</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- các sản phẩm  -->
+            <div class="items">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-xs-6 item" style="border: 1px solid #5a6268; border-radius: 10px;" th:each="book: ${bookList}">
+                        <a th:href="@{'/book/view/'+${book.id}}" class="motsanpham"
+                           style="text-decoration: none; color: black;" data-toggle="tooltip" data-placement="bottom">
+
+                            <img class="card-img-top anh" th:src="@{${book.getBookImage}}" th:alt="${book.name}">
+                            <div class="card-body noidungsp mt-3">
+                                <h3 class="card-title ten" th:text="${book.name}"></h3>
+                                <small class="tacgia text-muted" th:text="${book.author}"></small>
+                                <div class="gia d-flex align-items-baseline">
+                                    <div style="padding-right: 3px" class="giamoi price" th:text="${book.price}"></div>
+                                    <span style="color: red; font-size: 11pt" class="giamoi">đ</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- pagination bar -->
+            <div class="pagination-bar my-3">
+                <div class="row">
+                    <div class="col-12">
+                        <nav>
+                            <div class="float-right"><span>Total Items: [[${totalItems}]]</span></div>
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item">
+                                    <a th:if="${currentPage > 1}" th:href="@{'1'}">First</a>&nbsp;
+                                    <span th:unless="${currentPage > 1}">First</span>&nbsp;
+                                </li>
+                                <li class="page-item">
+                                      <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                                     <a th:if="${currentPage != i}" th:href="@{${i}}">[[${i}]]</a>&nbsp;
+                                     <span th:unless="${currentPage != i}">[[${i}]]</span>&nbsp;&nbsp;
+                                    </span>
+                                </li>
+                                <li class="page-item">
+                                    <a th:if="${currentPage < totalPages}" th:href="@{${totalPages}}">Last</a>
+                                    <span th:unless="${currentPage < totalPages}">Last</span>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <!--het khoi san pham-->
+        </div>
+        <!--het div noidung-->
+    </div>
+    <!--het container-->
+</section>
+
+<!-- thanh cac dich vu :mien phi giao hang, qua tang mien phi ........ -->
+<div th:replace="index::footer"></div>
+
+</body>
+
+</html>

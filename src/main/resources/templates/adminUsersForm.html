@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>BookStore - admin</title>
+    <meta content="Admin Dashboard" name="description"/>
+    <meta content="Themesbrand" name="author"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <!-- App Icons -->
+    <link rel="shortcut icon" href="http://localhost:8080/fontawesome/favicon.ico">
+
+    <!-- C3 charts css -->
+    <link href="http://localhost:8080/css/c3.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Basic Css files -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!--<link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">-->
+    <link href="http://localhost:8080/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="http://localhost:8080/css/style.css" rel="stylesheet" type="text/css">
+
+</head>
+<body class="fixed-left">
+
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <div th:replace="common/default :: left-sidebar"/>
+    <!-- Left Sidebar End -->
+
+
+    <!-- Start right Content here -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+
+            <!-- Top Bar Start -->
+            <div th:replace="common/default :: top-bar"/>
+            <!-- Top Bar End -->
+
+            <!-- ==================
+                 PAGE CONTENT START
+                 ================== -->
+            <div class="container text-center">
+                <div style="margin-top: 50px"></div>
+                <div>
+                    <h1> [[${pageTitle}]]</h1>
+                </div>
+                <form th:action="@{/admin/users/save}" method="post" th:object="${user}" style="max-width: 600px; margin: 0 auto">
+                    <input type="hidden" th:field="*{id}">
+                    <input type="hidden" th:field="*{role}">
+                    <div class="m-3">
+                        <div class="form-group row" style="margin-bottom: 30px">
+                            <label class="col-form-label col-4">E-mail</label>
+                            <div class="col-8">
+                                <input type="email" class="form-control" th:field="*{email}" required>
+                            </div>
+                        </div>
+                        <div class="form-group row" style="margin-bottom: 30px">
+                            <label class="col-form-label col-4">Password</label>
+                            <div class="col-8">
+                                <input type="password" class="form-control" th:field="*{password}" required minlength="6">
+                            </div>
+                        </div>
+                        <div class="form-group row" style="margin-bottom: 30px">
+                            <label class="col-form-label col-4">Name</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control" th:field="*{name}" >
+                            </div>
+                        </div>
+                        <div class="form-group row" style="margin-bottom: 30px">
+                            <label class="col-form-label col-4">Address</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control" th:field="*{address}" >
+                            </div>
+                        </div>
+                        <div class="form-group row" style="margin-bottom: 30px">
+                            <label class="col-form-label col-4">Phone</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control" th:field="*{phone}" minlength="10">
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary m-2">Save</button>
+                            <button type="submit" class="btn btn-secondary m-2" onclick="cancelForm()">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <script type="text/javascript">
+                function cancelForm() {
+                    window.location = "[[@{/admin/users}]]";
+                }
+            </script>
+            <!-- Page content Wrapper -->
+
+        </div> <!-- content -->
+
+        <div th:replace="common/default :: footer"/>
+
+    </div>
+    <!-- End Right content here -->
+
+</div>
+<!-- END wrapper -->
+
+<div th:replace="common/default :: script"/>
+
+</body>
+</html>

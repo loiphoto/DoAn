@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="li">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/product-item.css">
+    <script type="text/javascript" src="/js/main.js"></script>
+    <link rel="stylesheet" href="/css/all.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" type="text/css" href="/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="/slick/slick-theme.css"/>
+    <script type="text/javascript" src="slick/slick.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <script type="text/javascript"
+            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/favicon_io/site.webmanifest">
+
+</head>
+
+<body>
+
+<!--Header-->
+<div th:replace="index::header">
+</div>
+
+<div class="container">
+    <form th:action="@{/user/save}" method="post" th:object="${user}">
+    <div class="m-3">
+        <!--            <input type="hidden" th:field="${user.}">-->
+        <!--            <input type="hidden" th:field="*{role}">-->
+        <div class="form-group row m-b-20">
+            <label class="col-form-label col-4">Họ và tên: </label>
+            <div class="col-8">
+                <input type="text" class="form-control" th:field="${user.name}" required>
+            </div>
+        </div>
+        <div class="form-group row m-b-20">
+            <label class="col-form-label col-4">Phone</label>
+            <div class="col-8">
+                <input type="number" class="form-control" th:field="${user.phone}" required minlength="10">
+            </div>
+        </div>
+        <div class="form-group row m-b-20">
+            <label class="col-form-label col-4">Tỉnh</label>
+            <div class="col-8">
+                <select class="form-control" id="provinces" th:name="provinces">
+                    <option th:each="provinces :${provincesList}"
+                            th:value="${provinces.id}"
+                            th:text="${provinces.name}"
+                    >
+                </select>
+            </div>
+        </div>
+        <div class="form-group row m-b-20">
+            <label class="col-form-label col-4">Huyện</label>
+            <div class="col-8">
+                <select class="form-control" id="districts" th:name="districts">
+                    <option value="none" selected disabled hidden>Chọn Huyện
+                </select>
+            </div>
+        </div>
+        <div class="form-group row m-b-20">
+            <label class="col-form-label col-4">Xã </label>
+            <div class="col-8">
+                <select class="form-control" id="wards" th:field="${user.wardId}" required >
+                    <!--                        <option selected disabled hidden>Chọn Xã-->
+                </select>
+            </div>
+        </div>
+        <div class="form-group row m-b-20">
+            <label class="col-form-label col-4">Số nhà & tên đường </label>
+            <div class="col-8">
+                <input type="text" class="form-control" required th:field="${user.address}">
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary m-2">Lưu</button>\
+            <a href="/">
+            <button type="button" class="btn btn-secondary m-2" onclick="cancelForm()">Huỷ</button>
+            </a>
+        </div>
+    </div>
+    </form>
+</div>
+
+<div th:fragment="footer">
+    <!-- thanh cac dich vu :mien phi giao hang, qua tang mien phi ........ -->
+    <section class="abovefooter text-white" style="background-color: #CF111A;" th:fragment="dichvu">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-sm-6">
+                    <div class="dichvu d-flex align-items-center">
+                        <img src="/images/icon-books.png" alt="icon-books">
+                        <div class="noidung">
+                            <h6 class="tieude font-weight-bold">TUYỂN TẬP TỰA SÁCH HAY</h6>
+                            <p class="detail">Tuyển chọn bởi BookStore</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="dichvu d-flex align-items-center">
+                        <img src="/images/icon-ship.png" alt="icon-ship">
+                        <div class="noidung">
+                            <h6 class="tieude font-weight-bold">GIAO HÀNG NHANH CHÓNG</h6>
+                            <p class="detail">Trong ngày ở Hà Nội</p>
+                            <p class="detail">Từ 2-3 ngày các tỉnh lẻ</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="dichvu d-flex align-items-center">
+                        <img src="/images/icon-gift.png" alt="icon-gift">
+                        <div class="noidung">
+                            <h6 class="tieude font-weight-bold">QUÀ TẶNG MIỄN PHÍ</h6>
+                            <p class="detail">Tặng Bookmark</p>
+                            <p class="detail">Bao sách miễn phí</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="dichvu d-flex align-items-center">
+                        <img src="/images/icon-return.png" alt="icon-return">
+                        <div class="noidung">
+                            <h6 class="tieude font-weight-bold">ĐỔI TRẢ NHANH CHÓNG</h6>
+                            <p class="detail">Hàng bị lỗi được đổi trả nhanh chóng</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- het .abovefooter  -->
+
+    <!-- footer  -->
+    <footer>
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-md-3 col-xs-6">
+                    <div class="gioithieu">
+                        <h6 class="header text-uppercase font-weight-bold">Về DealBook</h6>
+                        <a href="#">Giới thiệu về DealBook</a>
+                        <a href="#">Tuyển dụng</a>
+                        <div class="fb-like" data-href="https://www.facebook.com/DealBook-110745443947730/"
+                             data-width="300px" data-layout="button" data-action="like" data-size="small"
+                             data-share="true"></div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <div class="hotrokh">
+                        <h6 class="header text-uppercase font-weight-bold">HỖ TRỢ KHÁCH HÀNG</h6>
+                        <a href="#">Hướng dẫn đặt hàng</a>
+                        <a href="#">Phương thức thanh toán</a>
+                        <a href="#">Phương thức vận chuyển</a>
+                        <a href="#">Chính sách đổi trả</a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <div class="lienket">
+                        <h6 class="header text-uppercase font-weight-bold">HỢP TÁC VÀ LIÊN KẾT</h6>
+                        <img src="/images/dang-ky-bo-cong-thuong.png" alt="dang-ky-bo-cong-thuong">
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <div class="ptthanhtoan">
+                        <h6 class="header text-uppercase font-weight-bold">Phương thức thanh toán</h6>
+                        <img src="/images/visa-payment.jpg" alt="visa-payment">
+                        <img src="/images/master-card-payment.jpg" alt="master-card-payment">
+                        <img src="/images/jcb-payment.jpg" alt="jcb-payment">
+                        <img src="/images/atm-payment.jpg" alt="atm-payment">
+                        <img src="/images/cod-payment.jpg" alt="cod-payment">
+                        <img src="/images/payoo-payment.jpg" alt="payoo-payment">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- nut cuon len dau trang -->
+    <div class="fixed-bottom">
+        <div class="btn btn-warning float-right rounded-circle nutcuonlen" id="backtotop" href="#"
+             style="background:#CF111A;"><i
+                class="fa fa-chevron-up text-white"></i></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#provinces").change(function () {
+            $("#districts").empty();
+            $("#wards").empty();
+            getDistricts();
+        });
+        getDistricts();
+        $("#districts").change(function () {
+            $("#wards").empty();
+            getWards();
+        });
+        // $("#wards").change(function () {
+        // });
+        // if (!$("#districts").val().null) {
+        //     getWards();
+        // }
+    });
+
+
+    function getDistricts() {
+        provincesId = $("#provinces").val();
+        urlString = "[[@{'/cart/check-out/provinces/'}]]" + provincesId + "/districts";
+        $.ajax({
+            method: "GET",
+            url: urlString,
+        }).done(function (responseJson) {
+            districtsDropDown = $("#districts");
+            $.each(responseJson, function (index, districts) {
+                // alert(index + ": "+ districts.id + " - " + districts.name);
+                $("<option>").val(districts.id).text(districts.name).appendTo(districtsDropDown);
+            });
+        })
+            .fail(function () {
+                alert("Error connecting to server");
+            });
+    };
+
+    function getWards() {
+        districtsId = $("#districts").val();
+        urlString = "[[@{'/cart/check-out/provinces/'}]]" + provincesId + "/districts/" + districtsId + "/wards";
+        $.ajax({
+            method: "GET",
+            url: urlString,
+        }).done(function (responseJson) {
+            wardsDropDown = $("#wards");
+            $.each(responseJson, function (index, wards) {
+                $("<option>").val(wards.id).text(wards.name).appendTo(wardsDropDown);
+            });
+        })
+            .fail(function () {
+                alert("Error connecting to server");
+            });
+    };
+
+</script>
+
+</body>
+
+</html>

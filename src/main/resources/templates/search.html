@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="li">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/css/product-item.css">
+  <script type="text/javascript" src="/js/main.js"></script>
+  <link rel="stylesheet" href="/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" type="text/css" href="/slick/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="/slick/slick-theme.css"/>
+  <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="slick/slick.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+  <script type="text/javascript"
+          src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+  <link rel="manifest" href="/favicon_io/site.webmanifest">
+
+</head>
+
+<body>
+
+<!--Header-->
+<div th:replace="index::header"></div>
+
+<section class="content my-4">
+  <div class="container">
+    <div class="noidung bg-white" style=" width: 100%;">
+      <!-- các sản phẩm  -->
+      <div class="items">
+        <div class="row">
+          <div class="col-lg-3 col-md-4 col-xs-6 item" th:each="book: ${bookList}">
+            <a th:href="@{'/book/view/'+${book.id}}" class="motsanpham"
+               style="text-decoration: none; color: black;" data-toggle="tooltip" data-placement="bottom">
+
+              <img class="card-img-top anh" th:src="@{${book.getBookImage}}" th:alt="${book.name}">
+              <div class="card-body noidungsp mt-3">
+                <h3 class="card-title ten" th:text="${book.name}"></h3>
+                <h4 >Thể loại</h4>
+                <small class="tacgia text-muted" th:text="${book.author}"></small>
+                <div class="gia d-flex align-items-baseline">
+                  <div class="giamoi" th:text="${book.price}"> ₫</div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!--het khoi san pham-->
+    </div>
+    <!--het div noidung-->
+  </div>
+  <!--het container-->
+</section>
+
+<!-- thanh cac dich vu :mien phi giao hang, qua tang mien phi ........ -->
+<div th:replace="index::footer"></div>
+
+</body>
+
+</html>

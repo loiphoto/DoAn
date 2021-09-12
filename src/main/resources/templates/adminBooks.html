@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>Admiria - Responsive Flat Admin Dashboard</title>
+    <meta content="Admin Dashboard" name="description"/>
+    <meta content="Themesbrand" name="author"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <!-- App Icons -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+    <!-- DataTables -->
+    <link href="../plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
+    <!-- Responsive datatable examples -->
+    <link href="../plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Basic Css files -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+
+<body class="fixed-left">
+
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <div th:replace="common/default :: left-sidebar"/>
+
+    <!-- Left Sidebar End -->
+
+
+    <!-- Start right Content here -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+
+            <!-- Top Bar Start -->
+            <div th:replace="common/default :: top-bar"/>
+            <!-- Top Bar End -->
+
+            <!-- ==================
+                 PAGE CONTENT START
+                 ================== -->
+
+            <div class="page-content-wrapper">
+
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card m-b-20">
+                                <div class="card-body">
+
+                                    <h4 class="mt-0 header-title">List of all Books</h4>
+
+                                    <div>
+                                        <a class="btn btn-outline-info waves-effect waves-light"
+                                           th:href="@{/admin/books/create}">Add new book</a>
+                                    </div>
+                                    <div th:if="message" class="alert alert-success text-center">[[${message}]]
+                                    </div>
+
+                                    <table id="datatable" class="table table-bordered dt-responsive nowrap"
+                                           cellspacing="0" width="100%">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Image</th>
+                                            <th>Category</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Author</th>
+                                            <th>Publication Date</th>
+                                            <th>Action</th>
+
+<!--                                            <th>Size</th>-->
+<!--                                            <th>Translator</th>-->
+<!--                                            <th>Publisher</th>-->
+<!--                                            <th>Number Of Page</th>-->
+<!--                                            <th>Description</th>-->
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <th:block th:each="book: ${bookList}">
+                                            <tr>
+                                                <td th:text="${book.id}">ID</td>
+                                                <td th:text="${book.name}">Name</td>
+                                                <td>
+                                                    <img th:src="@{${book.getBookImage}}" style="width: 100px; height: 150px">
+                                                </td>
+                                                <td th:text="${book.category.name}">Category</td>
+                                                <td th:text="${book.price}">Price</td>
+                                                <td th:text="${book.quantity}">Quantity</td>
+                                                <td th:text="${book.author}">Author</td>
+                                                <td th:text="${book.publicationDate}">Publication Date</td>
+<!--                                                <td th:text="${book.size}">Size</td>-->
+<!--                                                <td th:text="${book.translator}">Translator</td>-->
+<!--                                                <td th:text="${book.publisher}">Publisher</td>-->
+<!--                                                <td th:text="${book.numberOfPage}">Number Of Page</td>-->
+<!--                                                <td th:text="${book.description}">Description</td>-->
+                                                <td>
+                                                    <a th:href="@{'/admin/books/edit/'+${book.id}}">
+                                                        <button type="button"
+                                                                class="btn btn-outline-warning waves-effect waves-light">
+                                                            Edit
+                                                        </button>
+                                                    </a>
+                                                    <a th:href="@{'/admin/books/delete/'+${book.id}}">
+                                                        <button type="button"
+                                                                class="btn btn-outline-danger waves-effect waves-light">
+                                                            Delete
+                                                        </button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+
+                </div><!-- container-fluid -->
+
+            </div> <!-- Page content Wrapper -->
+
+        </div> <!-- content -->
+        <div th:replace="common/default :: footer"/>
+    </div>
+    <!-- End Right content here -->
+
+</div>
+<!-- END wrapper -->
+
+<!-- jQuery  -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/modernizr.min.js"></script>
+<script src="../assets/js/jquery.slimscroll.js"></script>
+<script src="../assets/js/waves.js"></script>
+<script src="../assets/js/jquery.nicescroll.js"></script>
+<script src="../assets/js/jquery.scrollTo.min.js"></script>
+
+<!-- Required datatable js -->
+
+<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../plugins/datatables/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script src="../plugins/datatables/dataTables.buttons.min.js"></script>
+<script src="../plugins/datatables/buttons.bootstrap4.min.js"></script>
+<script src="../plugins/datatables/jszip.min.js"></script>
+<script src="../plugins/datatables/pdfmake.min.js"></script>
+<script src="../plugins/datatables/vfs_fonts.js"></script>
+<script src="../plugins/datatables/buttons.html5.min.js"></script>
+<script src="../plugins/datatables/buttons.print.min.js"></script>
+<script src="../plugins/datatables/buttons.colVis.min.js"></script>
+<!-- Responsive examples -->
+<script src="../plugins/datatables/dataTables.responsive.min.js"></script>
+<script src="../plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+<!-- Datatable init js -->
+<script src="../assets/pages/datatables.init.js"></script>
+
+<!-- App js -->
+<script src="../assets/js/app.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#datatable').DataTable();
+    });
+</script>
+</body>
+</html>

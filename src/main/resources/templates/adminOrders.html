@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>Admiria - Responsive Flat Admin Dashboard</title>
+    <meta content="Admin Dashboard" name="description"/>
+    <meta content="Themesbrand" name="author"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <!-- App Icons -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+    <!-- DataTables -->
+    <link href="../plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
+    <!-- Responsive datatable examples -->
+    <link href="../plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Basic Css files -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+
+<body class="fixed-left">
+
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <div th:replace="common/default :: left-sidebar"/>
+
+    <!-- Left Sidebar End -->
+
+
+    <!-- Start right Content here -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+
+            <!-- Top Bar Start -->
+            <div th:replace="common/default :: top-bar"/>
+            <!-- Top Bar End -->
+
+            <!-- ==================
+                 PAGE CONTENT START
+                 ================== -->
+
+            <div class="page-content-wrapper">
+
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card m-b-20">
+                                <div class="card-body">
+
+                                    <h4 class="mt-0 header-title">List of all Orders</h4>
+
+                                    <div th:if="message" class="alert alert-success text-center">[[${message}]]
+                                    </div>
+
+                                    <table id="datatable" class="table table-bordered dt-responsive nowrap"
+                                           cellspacing="0" width="100%">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Tên khách hàng</th>
+                                            <th>Số điện thoại</th>
+                                            <th>Tổng tiền</th>
+                                            <th>Phương thức thanh toán</th>
+                                            <th>Ngày tạo</th>
+                                            <th>Trạng thái</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <th:block th:each="order: ${orderList}">
+                                            <tr>
+                                                <td th:text="${order.id}">User ID</td>
+                                                <td th:text="${order.user.name}">Name</td>
+                                                <td th:text="${order.user.phone}">Phone</td>
+                                                <td th:text="${order.total}">Total</td>
+                                                <td th:text="${order.paymentMethod}">Paymen Method</td>
+                                                <td th:text="${order.dateTime}">Ngày tạo</td>
+                                                <td class="reload_status" th:switch="${order.status}">
+                                                    <div th:case="1"><span class="badge badge-warning">Chờ xử lý</span></div>
+                                                    <div th:case="2"><span class="badge badge-blue-grey">Đang vận chuyển</span></div>
+                                                    <div id="check" th:case="3"><span class="badge badge-success">Hoàn tất</span></div>
+                                                </td>
+                                                <td>
+                                                    <a class="update_status" th:href="@{'/admin/orders/update/'+${order.id}}">
+                                                        <button type="button"
+                                                                class="btn btn-outline-info waves-effect waves-light">
+                                                            >>
+                                                        </button>
+                                                    </a>
+                                                    <a th:href="@{'/admin/orders/details/'+${order.id}}">
+                                                        <button type="button"
+                                                                class="btn btn-outline-warning waves-effect waves-light">
+                                                            Details
+                                                        </button>
+                                                    </a>
+                                                    <a th:href="@{'/admin/orders/delete/'+${order.id}}">
+                                                        <button type="button"
+                                                                class="btn btn-outline-danger waves-effect waves-light">
+                                                            Delete
+                                                        </button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+
+                </div><!-- container-fluid -->
+
+            </div> <!-- Page content Wrapper -->
+            <div th:replace="quantity_control::standard_modal"></div>
+        </div> <!-- content -->
+        <div th:replace="common/default :: footer"/>
+    </div>
+    <!-- End Right content here -->
+
+</div>
+<!-- END wrapper -->
+
+
+<!-- jQuery  -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/modernizr.min.js"></script>
+<script src="../assets/js/jquery.slimscroll.js"></script>
+<script src="../assets/js/waves.js"></script>
+<script src="../assets/js/jquery.nicescroll.js"></script>
+<script src="../assets/js/jquery.scrollTo.min.js"></script>
+
+<!-- Required datatable js -->
+
+<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../plugins/datatables/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script src="../plugins/datatables/dataTables.buttons.min.js"></script>
+<script src="../plugins/datatables/buttons.bootstrap4.min.js"></script>
+<script src="../plugins/datatables/jszip.min.js"></script>
+<script src="../plugins/datatables/pdfmake.min.js"></script>
+<script src="../plugins/datatables/vfs_fonts.js"></script>
+<script src="../plugins/datatables/buttons.html5.min.js"></script>
+<script src="../plugins/datatables/buttons.print.min.js"></script>
+<script src="../plugins/datatables/buttons.colVis.min.js"></script>
+<!-- Responsive examples -->
+<script src="../plugins/datatables/dataTables.responsive.min.js"></script>
+<script src="../plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+<!-- Datatable init js -->
+<script src="../assets/pages/datatables.init.js"></script>
+
+<!-- App js -->
+<script src="../assets/js/app.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#datatable').DataTable();
+    });
+</script>
+</body>
+</html>

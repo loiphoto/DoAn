@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+<div th:fragment="standard_modal" class="modal fade text-center" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle">Warning</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <span id="modalBody"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div th:fragment="quantity_control(qtyValue, bookId)">
+    <nav>
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link minusButton" href="" th:bookId="${bookId}"><b>-</b></a>
+            </li>
+            <li class="page-item">
+                <input type="text" th:value="${qtyValue}" class="form-control text-center" onkeydown="return false;"
+                       style="max-width: 55px"
+                       th:id="'quantity'+${bookId}"
+                />
+            </li>
+            <li class="page-item">
+                <a class="page-link plusButton" href="" th:bookId="${bookId}"><b>+</b></a>
+            </li>
+
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

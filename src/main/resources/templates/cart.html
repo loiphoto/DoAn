@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/gio-hang.css">
+    <script type="text/javascript" src="/js/main.js"></script>
+    <link rel="stylesheet" href="/fontawesome/css/all.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="/slick/slick-theme.css"/>
+    <script type="text/javascript" src="slick/slick.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.number.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <script type="text/javascript"
+            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/favicon_io/site.webmanifest">
+</head>
+
+<body>
+<!-- code cho nut like share facebook  -->
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v6.0"></script>
+
+<!-- header -->
+
+<div th:replace="index::header"></div>
+
+<!--Giỏ hàng-->
+<div class="container">
+    <h3> Giỏ hàng của bạn</h3>
+
+
+    <table class="table table-striped mb-0">
+        <thead>
+        <tr class="text-center">
+            <th scope="col">Tên sách</th>
+            <th scope="col">Ảnh</th>
+            <th scope="col" style="text-align: left">Số lượng</th>
+            <th scope="col">Giá</th>
+            <th scope="col">Thành tiền</th>
+            <th scope="col">Xoá</th>
+        </tr>
+        </thead>
+        <th:block th:each="item, status: ${cartItems}">
+            <div class="row border rounded" th:with="book = ${item.book}" >
+                <tbody class="text-center">
+                <tr th:id="'row'+${status.count}">
+                    <td scope="row" style=" text-align: center; vertical-align: middle;"><a
+                            th:href="@{'/book/view/'+${book.id}}" th:title="${book.name}" target="_blank"><b
+                            th:text="${book.name}"></b></a></td>
+                    <td><img style="height: 100px" th:src="@{'/images/'+${book.image}}" class="img-fluid">
+                    </td>
+                    <td style="vertical-align: middle;">
+                        <div style="padding-left: 20px"
+                             th:replace="quantity_control::quantity_control(${item.quantity}, ${item.book.id})">
+                            Quantity
+                        </div>
+                    </td>
+                    <td style="vertical-align: middle;">
+                        <span class="price" th:text="${book.price}"></span>
+                    </td>
+                    <td style="vertical-align: middle;">
+                        <span th:id="'subtotal' + ${book.id}" class="h4 bookSubtotal price">[[${item.subtotal}]] </span>
+                        <span style="font-size: 14pt"> đ</span>
+                    </td>
+                    <td>
+                        <div class="col-1">
+                            <div hidden="hidden">[[${status.count}]]</div>
+                            <div>
+                                <a class="fas fa-trash icon-dark link-remove" th:href="@{'/cart/remove/'+ ${book.id}}"
+                                   th:rowNumber="${status.count}">
+
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </div>
+        </th:block>
+    </table>
+
+    <a style="margin-top: 30px;" href="/" class="btn nutmuathem mb-3">Mua thêm</a>
+    <div style="text-align: right" th:unless="${#lists.isEmpty(cartItems)}">
+        <div>
+            <span class="h3">Tổng tiền: </span>
+        </div>
+        <div class="mt-2">
+            <span class="h2 priceTotal price" id="totalAmount"></span> <span style="font-size: 20pt"> đ</span>
+        </div>
+        <div class="mt-2">
+            <a th:href="@{/cart/check-out}">
+                <button class="btn btn-dark p-3 mt-2">Check Out</button>
+            </a>
+        </div>
+    </div>
+    <div th:if="${#lists.isEmpty(cartItems)}">
+        <h3>You have not chosen any books yet.</h3>
+    </div>
+
+
+</div>
+<div th:replace="quantity_control::standard_modal"></div>
+
+
+<!--footer-->
+
+<div th:replace="index::footer"></div>
+<script th:src="@{/js/shopping_cart.js}"></script>
+<script type="text/javascript">
+    $('.price').number(true,0,".",".");
+</script>
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>BookStore - admin</title>
+    <meta content="Admin Dashboard" name="description"/>
+    <meta content="Themesbrand" name="author"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <!-- App Icons -->
+    <link rel="shortcut icon" href="/fontawesome/favicon.ico">
+
+    <!-- C3 charts css -->
+    <link href="/css/c3.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Basic Css files -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!--        <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">-->
+    <link href="/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body class="fixed-left">
+
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <div th:replace="common/default :: left-sidebar"/>
+    <!-- Left Sidebar End -->
+
+
+    <!-- Start right Content here -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+
+            <!-- Top Bar Start -->
+            <div th:replace="common/default :: top-bar"/>
+            <!-- Top Bar End -->
+
+            <!-- ==================
+                 PAGE CONTENT START
+                 ================== -->
+
+            <div class="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card m-b-20">
+                                <div class="card-body">
+
+                                    <h4 class="mt-0 header-title">List of Orders Details</h4>
+
+                                    <table id="datatable" class="table table-bordered dt-responsive nowrap"
+                                           cellspacing="0" width="100%">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Tên sách</th>
+                                            <th>Giá bán</th>
+                                            <th>Số lượng</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <th:block th:each="item: ${orderItems}">
+                                            <tr>
+                                                <td th:text="${item.id}">ID</td>
+                                                <td th:text="${item.book.name}">Name</td>
+                                                <td th:text="${item.price}">Giá bán</td>
+                                                <td th:text="${item.quantity}">Số lượng</td>
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+                                    </table>
+                                    <a class="update_status" th:href="@{'/admin/orders'}">
+                                        <button type="button"
+                                                class="btn btn-outline-info waves-effect waves-light">
+                                            Quay về
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+
+                </div>
+            </div>
+            <!-- Page content Wrapper -->
+
+        </div> <!-- content -->
+
+        <div th:replace="common/default :: footer"/>
+
+    </div>
+    <!-- End Right content here -->
+
+</div>
+<!-- END wrapper -->
+
+<div th:replace="common/default :: script"/>
+
+</body>
+</html>
