@@ -1,11 +1,13 @@
 package com.example.doan.model;
 
 import com.example.doan.Entity.User;
+import com.example.doan.Utils.validator.CheckPhone;
 import lombok.Data;
 
 @Data
 public class UserProfile {
 //    private String password;
+    @CheckPhone
     private String phone;
     private String address;
     private String name;
